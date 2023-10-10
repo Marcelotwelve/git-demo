@@ -1,1 +1,163 @@
-project_one
+#1) Few information about me in the beginning
+"""
+projekt_1.py: první projekt do Engeto Online Python Akademie
+
+author: Jakub Skřivan
+email: kuba.skrivan96@gmail.com
+discord: Jakub S.#7451
+"""
+import sys #this is here because I want to terminate this code earlier, if user enter wrong username or password
+
+#2) program will ask from user his/her username and passport
+username = input(str("Enter your username:\n"))
+password = input(str("Enter your password:\n"))
+space = "-" * 50
+
+#3) find out if the username and the password which have been entered exist
+#4) If the user is registered - say hello and let him/her analysed texts
+#5) If the user is not registered - tell him that he/she is not registered and end program
+# I create a dictionary with all registered users - dictionary contains their username and password
+registered_users = {"bob": "123", "ann": "pass123", "mike": "password123", "liz": "pass123"} 
+# keys are registered usernames and values are passwords of each user
+
+if username in registered_users and registered_users[username] == (password): #4)
+    print("$ python projekt1.py")
+    print(f"username:{username}")
+    print(f"password:{password}")
+    print(space)
+    print(f"Welcome to the app, {username}")
+    print("We have 3 texts to be analyzed")
+else: #5)
+    print(f"""
+    username:{username} 
+    password:{password}
+    unregistered user, terminating the program..
+    """)
+   ### print(f"Sorry {username}, you enter wrong username or password!")
+    sys.exit() # program will terminate if this branch will be True
+
+# there are three texts from assignment that we will work with 
+TEXTS = ['''
+Situated about 10 miles west of Kemmerer,
+Fossil Butte is a ruggedly impressive
+topographic feature that rises sharply
+some 1000 feet above Twin Creek Valley
+to an elevation of more than 7500 feet
+above sea level. The butte is located just
+north of US 30N and the Union Pacific Railroad,
+which traverse the valley. ''',
+'''At the base of Fossil Butte are the bright
+red, purple, yellow and gray beds of the Wasatch
+Formation. Eroded portions of these horizontal
+beds slope gradually upward from the valley floor
+and steepen abruptly. Overlying them and extending
+to the top of the butte are the much steeper
+buff-to-white beds of the Green River Formation,
+which are about 300 feet thick.''',
+'''The monument contains 8198 acres and protects
+a portion of the largest deposit of freshwater fish
+fossils in the world. The richest fossil fish deposits
+are found in multiple limestone layers, which lie some
+100 feet below the top of the butte. The fossils
+represent several varieties of perch, as well as
+other freshwater genera and herring similar to those
+in modern oceans. Other fish such as paddlefish,
+garpike and stingray are also present.'''
+]
+print(space)
+#5) program let makes a user of three texts, there are in variable "TEXTS" (each text has a number)
+# so I have a list with three texts
+print(f"""
+TEXT 1: {TEXTS[0]}
+
+TEXT 2:\n {TEXTS[1]}
+
+TEXT 3:\n {TEXTS[2]}
+""")
+# I want to assign a number to every text in the list "TEXTS"
+# I also want to ask a user which text he/she choose
+print(space)
+number_of_text = input("Enter a number of text between 1 to 3:\n ")
+print(space)
+choosen_text = str()
+#user_number = -1
+#5a) if user doesn't enter a number, print the text that this is not a number and terminate the program
+if number_of_text.isnumeric() == False:
+    print("This is not a number!")
+    sys.exit()
+#5b) also if user enter a different number, print some text and terminate the program
+elif int(number_of_text) < 1 or int(number_of_text) > 3:
+    print("This is a wrong number. Enter a number 1, 2 or 3!")
+    sys.exit()
+else:
+    choosen_text = TEXTS[int(number_of_text) - 1] # right now I stored in choosen_text variable the text that user choosen
+###print(choosen_text)
+word = choosen_text.split() # in this variable I stored a text which user chose and split it to single words - one word = one value
+number_of_words = len(word) # 6A) - this is a number of words in the text - DONE
+
+# there are 5 variables which I have to solve
+titlecase_words = 0
+uppercase_words = 0
+lowercase_words = 0
+num_of_numbers = 0
+sum_of_numbers = 0
+
+for w in word:
+    if w and w[0].isupper():
+        if w.isupper():
+            uppercase_words += 1 # right now I solve uppercase_words 6C
+            titlecase_words += 1
+        else:
+            titlecase_words += 1 # right now I solve titlecase_words 6B
+    if w.islower():
+        lowercase_words += 1 # right now I solve lowercase_words 6D
+    if w.isnumeric() and not w.isalpha():
+        num_of_numbers += 1 # right now I solve num_of_numbers in the text 6E
+        sum_of_numbers += int(w) # right now I solve sum_of_numbers 6F
+
+print(f"There are {number_of_words} words in the selected text.")
+print(f"There are {titlecase_words} titlecase words.")
+print(f"There are {uppercase_words} uppercase words.")
+print(f"There are {lowercase_words} lowercase_words.")
+print(f"There are {num_of_numbers} numeric strings.")
+print(f"The sum of all the numbers: {sum_of_numbers}")
+print(space)
+
+# THIS UPSTAIRS IS THE FINAL VERSION
+
+# 7) program will represent a simple graff with numbers of each len of the words
+# use enumerate function for adding a numbers (with 2 variables in for loop I can split the index and the value)
+# I have to create a number which I use for multiplying each values in the text
+sentence = " ".join(word) # In this variable I stored a long sentence from the list word. There is one long string now
+
+sentence = sentence.replace(",", "").replace(".", "") # now I replace every , and . from the long string
+### THERE IS A BIG PROBLEM, I DONT KNOW, IF I CAN USE A STRING HERE AS A SOLUTION OF SPECIAL SIGNS
+
+word = sentence.split() # now I stored a value back to the variable "word" WITHOUT , and .
+
+
+
+length = list()
+for LEN in (word):
+    length.append(len(LEN)) # length now contains number of length of every word in choosen text
+number_counts = {}
+for num in length:
+    if num in number_counts:
+        number_counts[num] += 1
+    else:
+        number_counts[num] = 1
+
+# THIS IS CORRECT, PROGRAM WORS RIGHT
+
+sorted_keys = sorted(number_counts.keys()) # now I sorted each lengths from the lowest to the highest number of letters
+sorted_dict = dict(sorted(number_counts.items())) # THIS IS ALSO CORRECT, SORTED DICTIONARY
+
+# create a graff by the assignment
+max_value = max(sorted_dict)
+align = len(str(max_value))
+
+for key, value in sorted_dict.items():
+    stars = "*" * value # there is a sign which shows how many words with each number of letters are there
+    value_str = str(value).ljust(align) #assign how many stars are in every line 
+    print(f"{key}| {stars} {value_str}")
+
